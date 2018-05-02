@@ -1,0 +1,15 @@
+[PATH]
+INPUT_RawData = .\Input\RawData\
+INPUT_FlightMovementByDate = .\Input\FlightMovementByDate\
+RUNTIME_ArchivedRawData = .\Runtime\ArchivedRawData\
+RUNTIME_FlightDataByDate = .\Runtime\FlightDataByDate\
+RUNTIME_ArchivedFlightData = .\Runtime\ArchivedFlightData\
+RUNTIME_FlightInfo = .\Runtime\FlightInfo\
+OUTPUT_FlightDataByDate = .\Output\FlightDataByDate\
+OUTPUT_FlightMap = .\Output\FlightMap\
+OUTPUT_FlightInfo = .\Output\FlightInfo\
+
+[FlightSeparator]
+CAT = CAT20
+FILE_PATTERN = data.csv.*
+SEPARATED_FLIGHT_TIME_GAP = 1800
