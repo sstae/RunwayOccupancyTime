@@ -1,15 +1,21 @@
-[PATH]
-INPUT_RawData = .\Input\RawData\
-INPUT_FlightMovementByDate = .\Input\FlightMovementByDate\
-RUNTIME_ArchivedRawData = .\Runtime\ArchivedRawData\
-RUNTIME_FlightDataByDate = .\Runtime\FlightDataByDate\
-RUNTIME_ArchivedFlightData = .\Runtime\ArchivedFlightData\
-RUNTIME_FlightInfo = .\Runtime\FlightInfo\
-OUTPUT_FlightDataByDate = .\Output\FlightDataByDate\
-OUTPUT_FlightMap = .\Output\FlightMap\
-OUTPUT_FlightInfo = .\Output\FlightInfo\
+[Path]
+input_raw_data = .\Input\RawData
+input_flight_movement_by_date = .\Input\FlightMovementByDate
+runtime_archived_raw_data = .\Runtime\ArchivedRawData
+runtime_flight_data_by_date = .\Runtime\FlightDataByDate
+runtime_archived_flight_data = .\Runtime\ArchivedFlightData
+runtime_flight_info = .\Runtime\FlightInfo
+output_flight_data_by_date = .\Output\FlightDataByDate
+output_flight_map = .\Output\FlightMap
+output_flight_info = .\Output\FlightInfo
 
 [FlightSeparator]
-CAT = CAT20
-FILE_PATTERN = data.csv.*
-SEPARATED_FLIGHT_TIME_GAP = 1800
+cat = CAT20
+server_time_type = bkk
+input_filename_pattern = data.csv.*
+separated_flight_time_gap = 1800
+time_to_make_unchanged_folder = 13
+lines_seen_size = 100
+
+[FlightDataProcessor]
+input_folder_pattern = *_
