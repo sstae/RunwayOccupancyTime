@@ -4,7 +4,6 @@ import json
 import os
 import re
 import traceback
-
 from collections import deque
 
 
@@ -13,7 +12,7 @@ class CircularBuffer(deque):
         super(CircularBuffer, self).__init__(maxlen=size)
 
     @property
-    def average(self): 
+    def average(self):
         return sum(self)/len(self)
 
 
