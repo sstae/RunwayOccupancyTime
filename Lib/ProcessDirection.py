@@ -1,4 +1,3 @@
-
 def process_by_line(config, flight_info, content):
     if "direction" not in flight_info:
         # first time

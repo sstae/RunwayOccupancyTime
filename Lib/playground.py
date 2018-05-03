@@ -1,7 +1,8 @@
-from Lib import Util
-from Lib import Config
 import os
 import pprint
+
+from Lib import Config
+from Lib import Util
 
 Util.test('Hello')
 current_path = os.path.dirname(os.path.abspath(__file__))

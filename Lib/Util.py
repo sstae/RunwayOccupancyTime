@@ -1,10 +1,10 @@
 import datetime
-from decimal import Decimal
 import json
 import os
 import re
 import traceback
 from collections import deque
+from decimal import Decimal
 
 
 class CircularBuffer(deque):
@@ -13,7 +13,7 @@ class CircularBuffer(deque):
 
     @property
     def average(self):
-        return sum(self)/len(self)
+        return sum(self) / len(self)
 
 
 def test(x):
@@ -46,17 +46,17 @@ def datetime_decimal_decoder(json_dict):
 def get_date(date, time, data_time, time_type):
     times = time.split(":")
     hour = int(times[0]) * 3600
-    minute = int(times[1]) *60
+    minute = int(times[1]) * 60
     second = float(times[2])
     total = second + minute + hour
     if time_type == 'bkk':
         if total < 25200:  # system time less than 07:00 bkk time
             if float(data_time) > 3600:  # data_time more than 01:00 utc
                 return date - datetime.timedelta(days=1)
-            else: # data_time less than or equal 01:00 utc
+            else:  # data_time less than or equal 01:00 utc
                 return date
-        elif (total >= 25200) and (total <= 28800): # system time from 07:00 - 08:00 bkk time
-            if float(data_time) > 3600 : # data_time more than 01:00 utc
+        elif (total >= 25200) and (total <= 28800):  # system time from 07:00 - 08:00 bkk time
+            if float(data_time) > 3600:  # data_time more than 01:00 utc
                 return date - datetime.timedelta(days=1)
             else:
                 return date
@@ -75,7 +75,7 @@ def check_current_path(path, current_path):
     # check path is start with current path ?
     # create if not exist
     if path.startswith('.\\'):
-        output_path = current_path + "\\"+ path
+        output_path = current_path + "\\" + path
     else:
         output_path = path
     create_path_directory(output_path)
@@ -99,7 +99,8 @@ def get_position(data):
 def get_filename(aircraft, ac_id, data_datetime, separated_flight_time_gap):
     if ac_id in aircraft:
         aircraft_record = aircraft[ac_id]
-        if ac_id != "unknown" and (data_datetime - aircraft_record['last_date_time']).seconds >= separated_flight_time_gap:
+        if ac_id != "unknown" and (
+            data_datetime - aircraft_record['last_date_time']).seconds >= separated_flight_time_gap:
             if data_datetime.date() != aircraft_record['last_date_time'].date():
                 aircraft_record['no'] = 0
             else:

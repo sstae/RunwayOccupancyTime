@@ -1,7 +1,7 @@
 def process_by_line(config, flight_info, content):
     if "callsign" not in flight_info:
         # first time
-        flight_info["callsign"] = {"callsign": "", "callsign_list":{}}
+        flight_info["callsign"] = {"callsign": "", "callsign_list": {}}
     callsign = content['callsign']
     if callsign in flight_info["callsign"]["callsign_list"]:
         flight_info["callsign"]["callsign_list"][callsign] = flight_info["callsign"]["callsign_list"][callsign] + 1

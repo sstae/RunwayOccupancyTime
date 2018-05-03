@@ -48,7 +48,8 @@ def initial_aircraft(config):
             print("last_update_date:", last_update_date)
             date = datetime.datetime.strptime(str(last_update_date), '%Y%m%d')
             print("date:", date)
-            last_line_dict = read_last_line_for_each_flight(config['cat'], config['runtime_flight_data_by_date'], last_update_date)
+            last_line_dict = read_last_line_for_each_flight(config['cat'], config['runtime_flight_data_by_date'],
+                                                            last_update_date)
             # print(last_line_dict)
             for filename in last_line_dict:
                 line = last_line_dict[filename]

@@ -5,7 +5,7 @@ def process_by_line(config, flight_info, content):
     if "runway" not in flight_info:
         # first time
         flight_info["runway"] = {"runway": "unknown", "runway_layout": initial(), "runway_dict": {},
-                                 "prev_content": {}, "prev_runway":None}
+                                 "prev_content": {}, "prev_runway": None}
     lats = content['position']['lat']
     lons = content['position']['lon']
     t1 = geometry.Point(lats, lons)
@@ -24,9 +24,11 @@ def process_by_line(config, flight_info, content):
                 set_runway("in", runway_dict, current_runway, flight_info["runway"]["prev_content"], content)
             elif current_runway == "not_runway":
                 # out runway
-                set_runway("out", runway_dict, flight_info["runway"]["prev_runway"], flight_info["runway"]["prev_content"], content)
+                set_runway("out", runway_dict, flight_info["runway"]["prev_runway"],
+                           flight_info["runway"]["prev_content"], content)
             else:
-                set_runway("out", runway_dict, flight_info["runway"]["prev_runway"], flight_info["runway"]["prev_content"], content)
+                set_runway("out", runway_dict, flight_info["runway"]["prev_runway"],
+                           flight_info["runway"]["prev_content"], content)
                 set_runway("in", runway_dict, current_runway, flight_info["runway"]["prev_content"], content)
     flight_info["runway"]["prev_runway"] = current_runway
     flight_info["runway"]["prev_content"] = content
@@ -60,10 +62,10 @@ def initial():
     runway_point11 = geometry.Point(13.91252191775162, 100.6091176116703)
     runway_point12 = geometry.Point(13.89938636326239, 100.6017624507612)
 
-    point_list_runway1 = [runway_point1, runway_point2, runway_point5, runway_point4, runway_point1]     #21R
-    point_list_runway2 = [runway_point2, runway_point3, runway_point6, runway_point5, runway_point2]     #03L
-    point_list_runway3 = [runway_point7, runway_point8, runway_point11, runway_point10, runway_point7]   #21L
-    point_list_runway4 = [runway_point8, runway_point9, runway_point12, runway_point11, runway_point8]   #03R
+    point_list_runway1 = [runway_point1, runway_point2, runway_point5, runway_point4, runway_point1]  # 21R
+    point_list_runway2 = [runway_point2, runway_point3, runway_point6, runway_point5, runway_point2]  # 03L
+    point_list_runway3 = [runway_point7, runway_point8, runway_point11, runway_point10, runway_point7]  # 21L
+    point_list_runway4 = [runway_point8, runway_point9, runway_point12, runway_point11, runway_point8]  # 03R
 
     polygon_runway1 = geometry.Polygon([[p.x, p.y] for p in point_list_runway1])
     polygon_runway2 = geometry.Polygon([[p.x, p.y] for p in point_list_runway2])
@@ -82,7 +84,7 @@ def process_final(config, flight):
         print('cannot process runway summary')
     else:
         runway_dict = flight["runway"]["runway_dict"]
-        print("runway_dict",runway_dict)
+        print("runway_dict", runway_dict)
         runway_order = get_runway_order(runway_dict)
         if len(runway_dict) == 3:
             flight["runway"]["runway"] = runway_order[1]

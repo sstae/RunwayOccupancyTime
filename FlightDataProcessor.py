@@ -7,11 +7,11 @@ import time
 import traceback
 
 from Lib import Config
-from Lib import Util
-from Lib import ProcessDirection
-from Lib import ProcessCallsign
 from Lib import ProcessBay
+from Lib import ProcessCallsign
+from Lib import ProcessDirection
 from Lib import ProcessRunway
+from Lib import Util
 
 
 def initial_flight(config):
@@ -185,7 +185,7 @@ def main_process(config, flight):
             folder_list = glob.glob(config['input_folder_pattern'])
             if folder_list:
                 for folder_name in sorted(folder_list):
-                    process_folder(config, flight, folder_name[0,8])
+                    process_folder(config, flight, folder_name[0, 8])
                     print(folder_name + 'is finished')
             time.sleep(2)
         except Exception as error:
