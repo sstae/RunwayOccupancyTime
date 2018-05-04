@@ -1,7 +1,8 @@
-from Lib import Util
-import gmplot
 import os
 
+import gmplot
+
+from Lib import Util
 
 filename = "C:\\Users\\Pipat_P\\Desktop\\RunwayOccupancyTime\\Runtime\\FlightDataByDate\\20180321_\\CAT20\\881b6a_00"
 
@@ -57,4 +58,3 @@ def PoltGoogleMap(coords, filename, file, date, config):
     output_filename = Directory + "\\" + file + ".html"
     # save to map
     gmap.draw(output_filename)
-
