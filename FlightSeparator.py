@@ -87,23 +87,10 @@ def process_line(config, aircraft, lines_seen, line, date_of_flight):
     return data
 
 
-def append_filename(path, filename, data):
-    try:
-        if not os.path.exists(path):
-            os.makedirs(path)
-        output_filename = path + "\\" + filename  # creating output files categorized by (Aircraft_ID).
-        a = open(output_filename, "a")
-        a.write(data + '\n')
-        a.close()
-    except Exception as error:
-        print(traceback.format_exc())
-        print('append_filename Caught this error: ' + repr(error))
-
-
 def after_process(config, data):
     date = str(data["assign_date"].strftime("%Y%m%d"))
     output_path = config["runtime_flight_data_by_date"] + "\\" + date + "\\" + config['cat']
-    append_filename(output_path, data['filename'], Util.json_dump(data))
+    Util.append_filename(output_path, data['filename'], Util.json_dump(data))
 
 
 def process_file(config, aircraft, filename):
@@ -130,8 +117,8 @@ def process_file(config, aircraft, filename):
         path = config["runtime_flight_data_by_date"] + "\\" + target_date_of_flight.strftime("%Y%m%d")
         output_path = config["output_flight_data_by_date"] + "\\" + target_date_of_flight.strftime("%Y%m%d")
         if os.path.exists(path):
-            shutil.copytree(path, output_path)
-            os.rename(path, path + "_")
+            shutil.copytree(path, output_path, symlinks=False, ignore=None)
+            os.renames(path, path + "_")
 
 
 def main_process(config, aircraft):

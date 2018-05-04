@@ -19,3 +19,4 @@ lines_seen_size = 100
 
 [FlightDataProcessor]
 input_folder_pattern = *_
+replace = true
