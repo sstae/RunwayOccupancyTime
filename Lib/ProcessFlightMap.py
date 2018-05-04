@@ -8,29 +8,25 @@ filename = "C:\\Users\\Pipat_P\\Desktop\\RunwayOccupancyTime\\Runtime\\FlightDat
 
 
 # Function for plotting in Google Map
-def InitialProcessPlot(filename, config):
-    print(filename)
-    date = filename.split("\\")[-3]
-    file = filename.split("\\")[-1]
-    print(date)
-    ProcessEachfile(filename, file, date, config)
 
 
-def ProcessEachfile(filename, file, date, config):
-    coords = []
-    with open(filename, "r") as f:
-        # for row in f:
-        #     lat_long = row.split()[3]
-        #     coords.append(lat_long)
+def get_all_coordinates(input_filename):
+    result = []
+    with open(input_filename, "r") as f:
         for line in f:
             data = Util.json_load(line)
             lat_long = data['position']
-            coords.append(lat_long)
-    PoltGoogleMap(coords, filename, file, date, config)
+            result.append(lat_long)
+    return result
+
+
+def prepare_data(flight_info):
+    # TODO extract only some data for validation
+    return "test"
 
 
 # take a string that is a pair of points, return an array of floats
-def clean_coord(my_coord):
+def convert_to_float(my_coord):
     # my_coord = my_coord.split(',')
     # my_coord = [float(sc) for sc in my_coord]
     out_coord = []
@@ -39,22 +35,29 @@ def clean_coord(my_coord):
     return out_coord
 
 
-def PoltGoogleMap(coords, filename, file, date, config):
+def plot_google_map_to_file(config, filename, date, coordinates, text):
     # define the map startingoutputdata\\20180322\\CAT20\\8a02ca_01
-    gmap = gmplot.GoogleMapPlotter(clean_coord(coords[0])[0], clean_coord(coords[0])[1], 13)
+    first_float_coordinate = convert_to_float(coordinates[0])
+    gmap = gmplot.GoogleMapPlotter(first_float_coordinate[0], first_float_coordinate[1], 13)
     # loop through all coordinates and grab lats/lons
-    lats = []
-    lons = []
-    for c in coords:
-        gmap_coord = clean_coord(c)
-        lats.append(gmap_coord[0])
-        lons.append(gmap_coord[1])
+    latitude_list = []
+    longitude_list = []
+    for c in coordinates:
+        float_coordinate = convert_to_float(c)
+        latitude_list.append(float_coordinate[0])
+        longitude_list.append(float_coordinate[1])
     # add points to map
-    gmap.scatter(lats, lons, 'red', size=7, marker=False)
+    gmap.scatter(latitude_list, longitude_list, 'red', size=7, marker=False)
 
-    Directory = config['output_flight_map'] + "\\" + date + "\\" + "HTML"
-    if not os.path.exists(Directory):
-        os.makedirs(Directory)
-    output_filename = Directory + "\\" + file + ".html"
+    directory = config['output_flight_map'] + "\\" + date
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    output_filename = directory + "\\" + filename + ".html"
     # save to map
     gmap.draw(output_filename)
+
+
+def process_plot(config, input_filename, filename, date, flight_info):
+    coordinates = get_all_coordinates(input_filename)
+    text = prepare_data(flight_info)
+    plot_google_map_to_file(config, filename, date, coordinates, text)
