@@ -31,4 +31,5 @@ def initial_config(current_path, filename):
     config['lines_seen_size'] = config_data.get('FlightSeparator', 'lines_seen_size')
 
     config['input_folder_pattern'] = config_data.get('FlightDataProcessor', 'input_folder_pattern')
+    config['replace'] = config_data.get('FlightDataProcessor', 'true')
     return config
