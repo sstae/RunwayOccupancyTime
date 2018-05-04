@@ -2,7 +2,7 @@ from Lib import Util
 from Lib import Config
 import os
 import pprint
-import FlightSeparator
+# import FlightSeparator
 
 print('hello')
 Util.test('world')
@@ -15,9 +15,9 @@ all_config = Config.initial_config(current_path, 'config.txt')
 print("config:")
 pp.pprint(all_config)
 
-aircraft = {}
-input_file = os.path.join(all_config['input_raw_data'], "data.csv.2018032214")
-FlightSeparator.process_file(all_config, aircraft, input_file)
+# aircraft = {}
+# input_file = os.path.join(all_config['input_raw_data'], "data.csv.2018032214")
+# FlightSeparator.process_file(all_config, aircraft, input_file)
 
 
 # cb = Util.CircularBuffer(size=10)
