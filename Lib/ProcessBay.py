@@ -104,15 +104,15 @@ def process_by_line(config, flight_info, content):
     if "bay" not in flight_info:
         # first time
         flight_info["bay"] = {"bay": "unknown", "bay_layout": initial(), "bay_dict": {}}
-    lats = content['position']['lat']
-    lons = content['position']['lon']
-    t1 = geometry.Point(lats, lons)
-    bay_layput = flight_info["bay"]["bay_layout"]
+    latitude = content['position']['lat']
+    longitude = content['position']['lon']
+    t1 = geometry.Point(latitude, longitude)
+    bay_layout = flight_info["bay"]["bay_layout"]
     bay_dict = flight_info["bay"]["bay_dict"]
     # for loop since zone1 until zone11
     current_bay = "not_bay"
-    for zone_name in bay_layput:
-        if bay_layput[zone_name].intersects(t1):
+    for zone_name in bay_layout:
+        if bay_layout[zone_name].intersects(t1):
             current_bay = zone_name
             break
     # if the first lat/lon is not in zone1, it will create "" for the first value in the listofBAY.
@@ -122,15 +122,15 @@ def process_by_line(config, flight_info, content):
         bay_dict[current_bay]["last"] = content["data_time"]
 
 
-def process_fianl(config, flight_info):
+def process_final(config, flight_info):
     if ("bay" not in flight_info) or ("direction" not in flight_info):
         print('cannot process bay summary')
     else:
         bay_dict = flight_info["bay"]["bay_dict"]
         direction = flight_info["direction"]["direction"]
-        if (direction == "arrival"):
+        if direction == "arrival":
             flight_info["bay"]["bay"] = get_last_bay(bay_dict)
-        elif (direction == "departure"):
+        elif direction == "departure":
             flight_info["bay"]["bay"] = get_first_bay(bay_dict)
         else:
             flight_info["bay"]["bay"] = "unknown"
