@@ -1,3 +1,5 @@
+import math
+
 from shapely import geometry
 
 
@@ -6,9 +8,9 @@ def process_by_line(config, flight_info, content):
         # first time
         flight_info["runway"] = {"runway": "unknown", "runway_layout": initial(), "runway_dict": {},
                                  "prev_content": {}, "prev_runway": None}
-    lats = content['position']['lat']
-    lons = content['position']['lon']
-    t1 = geometry.Point(lats, lons)
+    latitude = content['position']['lat']
+    longitude = content['position']['lon']
+    t1 = geometry.Point(latitude, longitude)
     runway_dict = flight_info["runway"]["runway_dict"]
     runway_layout = flight_info["runway"]["runway_layout"]
     current_runway = "not_runway"
@@ -86,22 +88,40 @@ def process_final(config, flight):
         runway_dict = flight["runway"]["runway_dict"]
         print("runway_dict", runway_dict)
         runway_order = get_runway_order(runway_dict)
+        runway_layout = flight["runway"]["runway_layout"]
         if len(runway_dict) == 3:
             flight["runway"]["runway"] = runway_order[1]
-            flight["runway"]["runway_start_dt"] = get_time_across_runway("in", runway_dict[runway_order[1]])
-            flight["runway"]["runway_end_dt"] = get_time_across_runway("out", runway_dict[runway_order[2]])
-            flight["runway"]["runway_time"] = flight["runway"]["runway_end_dt"] - flight["runway"]["runway_start_dt"]
+            flight["runway"]["runway_start_dt"] = get_time_across_runway(runway_layout, runway_order[1], "in",
+                                                                         runway_dict[runway_order[1]])
+            flight["runway"]["runway_end_dt"] = get_time_across_runway(runway_layout, runway_order[2], "out",
+                                                                       runway_dict[runway_order[2]])
+            flight["runway"]["runway_time"] = (
+                    flight["runway"]["runway_end_dt"] - flight["runway"]["runway_start_dt"]).seconds
         elif len(runway_dict) == 2:
             flight["runway"]["runway"] = runway_order[0]
-            flight["runway"]["runway_start_dt"] = get_time_across_runway("in", runway_dict[runway_order[0]])
-            flight["runway"]["runway_end_dt"] = get_time_across_runway("out", runway_dict[runway_order[1]])
-            flight["runway"]["runway_time"] = flight["runway"]["runway_end_dt"] - flight["runway"]["runway_start_dt"]
+            flight["runway"]["runway_start_dt"] = get_time_across_runway(runway_layout, runway_order[0], "in",
+                                                                         runway_dict[runway_order[0]])
+            flight["runway"]["runway_end_dt"] = get_time_across_runway(runway_layout, runway_order[1], "out",
+                                                                       runway_dict[runway_order[1]])
+            flight["runway"]["runway_time"] = (
+                    flight["runway"]["runway_end_dt"] - flight["runway"]["runway_start_dt"]).seconds
         else:
             flight["runway"]["runway"] = "unknown"
 
 
-def get_time_across_runway(condition, runway):
-    return runway[condition]["first_1"]["data_time"]
+def get_time_across_runway(runway_layout, condition, runway_name, runway):
+    if condition in runway:
+        p1_lat = runway[condition]["first_1"]["lat"]
+        p1_lon = runway[condition]["first_1"]["lon"]
+        p2_lat = runway[condition]["first_2"]["lat"]
+        p2_lon = runway[condition]["first_2"]["lon"]
+        t1 = runway[condition]["first_1"]["data_time"]
+        t2 = runway[condition]["first_2"]["data_time"]
+        x = find_intersection_point(p1_lat, p1_lon, p2_lat, p2_lon, runway_layout[runway_name])
+        tx = intersect_runway_time(t1, t2, p1_lat, p1_lon, p2_lat, p2_lon, x[0], x[1])
+        return tx
+    else:
+        return None
 
 
 def get_runway_order(runway_dict):
@@ -110,3 +130,17 @@ def get_runway_order(runway_dict):
         runway.append(key)
     print(runway)
     return runway
+
+
+def intersect_runway_time(t1, t2, p1_lat, p1_lon, p2_lat, p2_lon, x_lat, x_lon):
+    d1 = math.hypot(p1_lat - x_lat, p1_lon - x_lon)
+    d2 = math.hypot(p1_lat - p2_lat, p1_lon - p2_lon)
+    tx = (d1(t2 - t1)) / d2
+    return tx
+
+
+def find_intersection_point(p1_lat, p1_lon, p2_lat, p2_lon, polygon):
+    line = [(p1_lat, p1_lon), (p2_lat, p2_lon)]
+    shapely_line = geometry.LineString(line)
+    intersection_line = list(polygon.intersection(shapely_line).coords)
+    return intersection_line[1]

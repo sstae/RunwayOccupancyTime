@@ -12,7 +12,7 @@ class CircularBuffer(deque):
         super(CircularBuffer, self).__init__(maxlen=size)
 
     @property
-    def average(self):
+    def average(self):  # TODO: Make type check for integer or floats
         return sum(self) / len(self)
 
 
@@ -100,7 +100,7 @@ def get_filename(aircraft, ac_id, data_datetime, separated_flight_time_gap):
     if ac_id in aircraft:
         aircraft_record = aircraft[ac_id]
         if ac_id != "unknown" and (
-            data_datetime - aircraft_record['last_date_time']).seconds >= separated_flight_time_gap:
+                data_datetime - aircraft_record['last_date_time']).seconds >= separated_flight_time_gap:
             if data_datetime.date() != aircraft_record['last_date_time'].date():
                 aircraft_record['no'] = 0
             else:
@@ -164,9 +164,10 @@ def extract_cat20_v1_1(aircraft, date_of_flight, line, separated_flight_time_gap
 
 def extract_flight_movement(data):
     flight_movement = {}
-    elements = data.split(',')
+    elements = data.split(';')
     # ? under construction
     flight_movement['status'] = elements[0]
+    flight_movement['callsign'] = elements[3]
     return flight_movement
 
 

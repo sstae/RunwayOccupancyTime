@@ -84,7 +84,7 @@ def summary(config, flight_info):
 
 def process_final(config, flight_info, flight_movement_at_date):
     ProcessCallsign.process_final(config, flight_info)
-    ProcessBay.process_fianl(config, flight_info)
+    ProcessBay.process_final(config, flight_info)
     ProcessRunway.process_final(config, flight_info)
     flight_movement = get_flight_movement(flight_movement_at_date, flight_info)
     if flight_movement:
