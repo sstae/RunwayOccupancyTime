@@ -8,12 +8,18 @@ def initial_config(current_path, filename):
     config_data.read_file(open(filename, 'r'))
     config = {}
     config['input_raw_data'] = Util.check_current_path(config_data.get('Path', 'input_raw_data'), current_path)
-    config['input_flight_movement_by_date'] = Util.check_current_path(config_data.get('Path', 'input_flight_movement_by_date'), current_path)
-    config['runtime_archived_raw_data'] = Util.check_current_path(config_data.get('Path', 'runtime_archived_raw_data'), current_path)
-    config['runtime_archived_flight_data'] = Util.check_current_path(config_data.get('Path', 'runtime_archived_flight_data'), current_path)
-    config['runtime_flight_data_by_date'] = Util.check_current_path(config_data.get('Path', 'runtime_flight_data_by_date'), current_path)
-    config['runtime_flight_info'] = Util.check_current_path(config_data.get('Path', 'runtime_flight_info'), current_path)
-    config['output_flight_data_by_date'] = Util.check_current_path(config_data.get('Path', 'output_flight_data_by_date'), current_path)
+    config['input_flight_movement_by_date'] = Util.check_current_path(
+        config_data.get('Path', 'input_flight_movement_by_date'), current_path)
+    config['runtime_archived_raw_data'] = Util.check_current_path(config_data.get('Path', 'runtime_archived_raw_data'),
+                                                                  current_path)
+    config['runtime_archived_flight_data'] = Util.check_current_path(
+        config_data.get('Path', 'runtime_archived_flight_data'), current_path)
+    config['runtime_flight_data_by_date'] = Util.check_current_path(
+        config_data.get('Path', 'runtime_flight_data_by_date'), current_path)
+    config['runtime_flight_info'] = Util.check_current_path(config_data.get('Path', 'runtime_flight_info'),
+                                                            current_path)
+    config['output_flight_data_by_date'] = Util.check_current_path(
+        config_data.get('Path', 'output_flight_data_by_date'), current_path)
     config['output_flight_map'] = Util.check_current_path(config_data.get('Path', 'output_flight_map'), current_path)
     config['output_flight_info'] = Util.check_current_path(config_data.get('Path', 'output_flight_info'), current_path)
 
