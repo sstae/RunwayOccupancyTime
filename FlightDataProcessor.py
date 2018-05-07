@@ -68,7 +68,9 @@ def get_flight_movement(flight_movement_at_date, flight_info):
                 if len(temp) == 1:
                     return temp[0]
                 # TODO Use direction
+                # if flight_info["direction"]["direction"] == "arrival":
                 # if arrival use end time compare to ATA/ETA.
+                # if flight_info["direction"]["direction"] == "departure":
                 # if departure use start time compare to ATD/ETD.
                 else:
                     return temp[0]
@@ -149,7 +151,7 @@ def process_file(config, flight_at_date, flight_movement_at_date, filename):
 
 
 def add_flight_movement(flight_movement_at_date, data):
-    callsign = data['callsign']
+    callsign = data['CS']  #fixed
     if callsign in flight_movement_at_date:
         flight_movement_at_date[callsign].append(data)
     else:
