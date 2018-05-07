@@ -2,7 +2,7 @@ from Lib import Util
 from Lib import Config
 import os
 import pprint
-import FlightSeparator
+# import FlightSeparator
 
 print('hello')
 Util.test('world')
@@ -33,10 +33,9 @@ Util.test('world')
 
 from shapely import geometry
 
-<<<<<<< Updated upstream
-aircraft = {}
-input_file = os.path.join(all_config['input_raw_data'], "data.csv.2018032214")
-FlightSeparator.process_file(all_config, aircraft, input_file)
+# aircraft = {}
+# input_file = os.path.join(all_config['input_raw_data'], "data.csv.2018032214")
+# FlightSeparator.process_file(all_config, aircraft, input_file)
 
 
 # cb = Util.CircularBuffer(size=10)
@@ -52,7 +51,6 @@ FlightSeparator.process_file(all_config, aircraft, input_file)
 #         print ('1 not in x')
 #     if '6' not in x:
 #         print ('6 not in x')
-=======
 
 polygon = [(1, 1), (1, 3), (3, 3), (3, 1), (1, 1)]
 line = [(2,2), (4,2)]
@@ -61,4 +59,3 @@ shapely_line = geometry.LineString(line)
 intersection_line = list(shapely_poly.intersection(shapely_line).coords)
 print(intersection_line)
 print(intersection_line[1])
->>>>>>> Stashed changes

@@ -1,4 +1,5 @@
 # RunwayOccupancyTime
-there are 2 main files
+
+there are 2 main file
 - FlightSeparator.py
-- FlightDataProcessor.py
+- FlihgtDataProcessor.py
