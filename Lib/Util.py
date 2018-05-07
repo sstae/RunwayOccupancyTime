@@ -164,10 +164,37 @@ def extract_cat20_v1_1(aircraft, date_of_flight, line, separated_flight_time_gap
 
 def extract_flight_movement(data):
     flight_movement = {}
-    elements = data.split(';')
-    # ? under construction
-    flight_movement['status'] = elements[0]
-    flight_movement['callsign'] = elements[3]
+    elements = data.split(";")
+    flight_movement["STATUS"] = elements[0]
+    flight_movement["DOF"] = elements[1]
+    flight_movement["FlightType"] = elements[2]
+    flight_movement["REG"] = elements[3]
+    flight_movement["MessageType"] = elements[4]
+    flight_movement["CS"] = elements[5]
+    flight_movement["AcType"] = elements[6]
+    flight_movement["DEP"] = elements[7]
+    flight_movement["ETD"] = elements[8]
+    flight_movement["ATD"] = elements[9]
+    flight_movement["Route"] = elements[10]
+    flight_movement["DEST"] = elements[11]
+    flight_movement["ETA"] = elements[12]
+    flight_movement["ATA"] = elements[13]
+    flight_movement["No"] = elements[14]
+    flight_movement["Squawk"] = elements[15]
+    flight_movement["FRULE"] = elements[16]
+    flight_movement["WTURB"] = elements[17]
+    flight_movement["COMNAV"] = elements[18]
+    flight_movement["SPEED"] = elements[19]
+    flight_movement["FLEVEL"] = elements[20]
+    flight_movement["EET"] = elements[21]
+    flight_movement["INBOUND"] = elements[22]
+    flight_movement["OUTBOUDN"] = elements[23]
+    flight_movement["ALTDEST"] = elements[24]
+    flight_movement["ALTDEST2"] = elements[25]
+    flight_movement["DLA"] = elements[26]
+    flight_movement["CHG"] = elements[27]
+    flight_movement["CNL"] = elements[28]
+    flight_movement["Item18"] = elements[29]
     return flight_movement
 
 
