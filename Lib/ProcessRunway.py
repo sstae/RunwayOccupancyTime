@@ -1,7 +1,7 @@
 import math
 
 from shapely import geometry
-
+from decimal import Decimal
 
 def process_by_line(config, flight_info, content):
     if "runway" not in flight_info:
@@ -109,16 +109,20 @@ def process_final(config, flight):
             flight["runway"]["runway"] = "unknown"
 
 
-def get_time_across_runway(runway_layout, condition, runway_name, runway):
+def get_time_across_runway(runway_layout, runway_name, condition, runway): #fixed
     if condition in runway:
-        p1_lat = runway[condition]["first_1"]["lat"]
-        p1_lon = runway[condition]["first_1"]["lon"]
-        p2_lat = runway[condition]["first_2"]["lat"]
-        p2_lon = runway[condition]["first_2"]["lon"]
+        print(runway)
+        p1_lat = runway[condition]["first_1"]["position"]["lat"]
+        p1_lon = runway[condition]["first_1"]["position"]["lon"]
+        p2_lat = runway[condition]["first_2"]["position"]["lat"]
+        p2_lon = runway[condition]["first_2"]["position"]["lon"]
         t1 = runway[condition]["first_1"]["data_time"]
+
         t2 = runway[condition]["first_2"]["data_time"]
         x = find_intersection_point(p1_lat, p1_lon, p2_lat, p2_lon, runway_layout[runway_name])
-        tx = intersect_runway_time(t1, t2, p1_lat, p1_lon, p2_lat, p2_lon, x[0], x[1])
+        print(Decimal(x[0]))
+        print(Decimal(x[1]))
+        tx = intersect_runway_time(t1, t2, p1_lat, p1_lon, p2_lat, p2_lon, Decimal(x[0]), Decimal(x[1]))
         return tx
     else:
         return None
@@ -133,9 +137,12 @@ def get_runway_order(runway_dict):
 
 
 def intersect_runway_time(t1, t2, p1_lat, p1_lon, p2_lat, p2_lon, x_lat, x_lon):
-    d1 = math.hypot(p1_lat - x_lat, p1_lon - x_lon)
+    d1 = math.hypot(p1_lat - x_lat , p1_lon - x_lon)
     d2 = math.hypot(p1_lat - p2_lat, p1_lon - p2_lon)
-    tx = (d1(t2 - t1)) / d2
+    delta_time = (t2 - t1)
+    print(delta_time)
+    tx = (d1 * (t2 - t1)) / d2
+    print(tx)
     return tx
 
 
