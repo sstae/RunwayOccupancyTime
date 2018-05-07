@@ -33,3 +33,11 @@ pp.pprint(all_config)
 #         print ('1 not in x')
 #     if '6' not in x:
 #         print ('6 not in x')
+from shapely import geometry
+polygon = [(1, 1), (1, 3), (3, 3), (3, 1), (1, 1)]
+line = [(2,2), (4,2)]
+shapely_poly = geometry.Polygon(polygon)
+shapely_line = geometry.LineString(line)
+intersection_line = list(shapely_poly.intersection(shapely_line).coords)
+print(intersection_line)
+print(intersection_line[1])
