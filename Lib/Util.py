@@ -12,7 +12,7 @@ class CircularBuffer(deque):
         super(CircularBuffer, self).__init__(maxlen=size)
 
     @property
-    def average(self):  # TODO: Make type check for integer or floats
+    def average(self):
         return sum(self) / len(self)
 
 

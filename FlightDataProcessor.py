@@ -19,7 +19,7 @@ from Lib import Util
 def initial_flight(config):
     flight = {}
     try:
-        # TODO Use file pattern to filter only active files(having _ file)
+        # TODO Use file pattern to filter only active files(having _ file) by joe
         list_date_from_flight_info = os.listdir(config['runtime_flight_info'])
         print("list_date_from_flight_info:", list_date_from_flight_info)
         if list_date_from_flight_info:
@@ -67,7 +67,7 @@ def get_flight_movement(flight_movement_at_date, flight_info):
                 temp = flight_movement_at_date[flight_info['callsign']['callsign']]
                 if len(temp) == 1:
                     return temp[0]
-                # TODO Use direction
+                # TODO Use direction by project
                 # if flight_info["direction"]["direction"] == "arrival":
                 # if arrival use end time compare to ATA/ETA.
                 # if flight_info["direction"]["direction"] == "departure":

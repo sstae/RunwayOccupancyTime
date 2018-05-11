@@ -21,7 +21,7 @@ def get_all_coordinates(input_filename):
 
 
 def prepare_data(flight_info):
-    # TODO extract only some data for validation
+    # TODO extract only some data for validation by joe
     return "test"
 
 
@@ -35,7 +35,13 @@ def convert_to_float(my_coord):
     return out_coord
 
 
-def plot_google_map_to_file(config, filename, date, coordinates, text):
+
+def inject_text_to_html(filename, flight_info):
+    text = prepare_data(flight_info)
+    # TODO open file by joe
+    # TODO replace </body> with text + </body> by joe
+
+def plot_google_map_to_file(config, filename, date, coordinates, flight_info):
     # define the map startingoutputdata\\20180322\\CAT20\\8a02ca_01
     first_float_coordinate = convert_to_float(coordinates[0])
     gmap = gmplot.GoogleMapPlotter(first_float_coordinate[0], first_float_coordinate[1], 13)
@@ -55,9 +61,8 @@ def plot_google_map_to_file(config, filename, date, coordinates, text):
     output_filename = directory + "\\" + filename + ".html"
     # save to map
     gmap.draw(output_filename)
-
+    inject_text_to_html(output_filename, flight_info)
 
 def process_plot(config, input_filename, filename, date, flight_info):
     coordinates = get_all_coordinates(input_filename)
-    text = prepare_data(flight_info)
-    plot_google_map_to_file(config, filename, date, coordinates, text)
+    plot_google_map_to_file(config, filename, date, coordinates, flight_info)
