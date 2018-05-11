@@ -117,11 +117,7 @@ def process_file(config, aircraft, filename):
         path = config["runtime_flight_data_by_date"] + "\\" + target_date_of_flight.strftime("%Y%m%d")
         output_path = config["output_flight_data_by_date"] + "\\" + target_date_of_flight.strftime("%Y%m%d")
         if os.path.exists(path):
-<<<<<<< Updated upstream
             shutil.copytree(path, output_path, symlinks=False, ignore=None)
-=======
-            shutil.copytree(path, output_path)
->>>>>>> Stashed changes
             os.renames(path, path + "_")
 
 
