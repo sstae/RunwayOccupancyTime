@@ -73,7 +73,40 @@ def get_flight_movement(flight_movement_at_date, flight_info):
                 # if flight_info["direction"]["direction"] == "departure":
                 # if departure use start time compare to ATD/ETD.
                 else:
-                    return temp[0]
+                    if flight_info["direction"]["direction"] == "arrival":
+                        for item in temp:
+                            if item['ATA'] and item['ETA']:
+                                date_num = item["ATA"][1:3]
+                                hour = int(item["ATA"][4:6]) * 3600
+                                mins = int(item["ATA"][6:8]) * 60
+                                dt_obj = flight_info['flight_time']['first_time']
+                                date_str = dt_obj.strftime("%Y-%m-%d %H:%M:%S")
+                                time = date_str.split(' ')[1]
+                                date = date_str.split(' ')[0]
+                                date_data = date.split("-")[-1]
+                                hour_data = time.split(":")[0]
+                                mins_data = time.split(":")[1]
+                                hour_sec = int(hour_data) * 3600
+                                mins_sec = int(mins_data) * 60
+                                if date_num == date_data and abs(int(hour + mins) - int(hour_sec + mins_sec)) <= 7200:
+                                    return item
+                    elif flight_info["direction"]["direction"] == "departure":
+                        for item in temp:
+                            if item['ATD'] and item['ETD']:
+                                date_num = item["ATD"][1:3]
+                                hour = int(item["ATD"][4:6]) * 3600
+                                mins = int(item["ATD"][6:8]) * 60
+                                dt_obj = flight_info['flight_time']['first_time']
+                                date_str = dt_obj.strftime("%Y-%m-%d %H:%M:%S")
+                                time = date_str.split(' ')[1]
+                                date = date_str.split(' ')[0]
+                                date_data = date.split("-")[-1]
+                                hour_data = time.split(":")[0]
+                                mins_data = time.split(":")[1]
+                                hour_sec = int(hour_data) * 3600
+                                mins_sec = int(mins_data) * 60
+                                if date_num == date_data and abs(int(hour + mins) - int(hour_sec + mins_sec)) <= 7200:
+                                    return item
     return None
 
 
