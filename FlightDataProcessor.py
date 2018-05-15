@@ -73,7 +73,8 @@ def get_flight_movement(flight_movement_at_date, flight_info):
                 # if flight_info["direction"]["direction"] == "departure":
                 # if departure use start time compare to ATD/ETD.
                 else:
-                    get_one_flight_movement(flight_info, temp)
+                    temp_item = get_one_flight_movement(flight_info, temp)
+                    return temp_item
     return None
 
 
