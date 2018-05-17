@@ -119,14 +119,23 @@ def get_time_across_runway(runway_layout, runway_name, condition, runway): #fixe
         t1 = runway[condition]["first_1"]["data_time"]
 
         t2 = runway[condition]["first_2"]["data_time"]
-        # TODO use condition to identify p1 in runway
-        # TODO condition = in p2 , p1
-        # TODO condition = out p1 , p2
-        x = find_intersection_point(p1_lat, p1_lon, p2_lat, p2_lon, runway_layout[runway_name])
-        print(Decimal(x[0]))
-        print(Decimal(x[1]))
-        tx = intersect_runway_time(t1, t2, p1_lat, p1_lon, p2_lat, p2_lon, Decimal(x[0]), Decimal(x[1]))
-        return tx
+        # use condition to identify p1 in runway
+        # condition = in p2 , p1
+        # condition = out p1 , p2
+        if condition == "in":
+            x = find_intersection_point(p2_lat, p2_lon, p1_lat, p1_lon, runway_layout[runway_name])
+            print(Decimal(x[0]))
+            print(Decimal(x[1]))
+            tx = intersect_runway_time(t1, t2, p2_lat, p2_lon, p1_lat, p1_lon, Decimal(x[0]), Decimal(x[1]))
+            return tx
+
+        elif condition == "out":
+            x = find_intersection_point(p1_lat, p1_lon, p2_lat, p2_lon, runway_layout[runway_name])
+            print(Decimal(x[0]))
+            print(Decimal(x[1]))
+            tx = intersect_runway_time(t1, t2, p1_lat, p1_lon, p2_lat, p2_lon, Decimal(x[0]), Decimal(x[1]))
+            return tx
+
     else:
         return None
 
@@ -143,9 +152,8 @@ def intersect_runway_time(t1, t2, p1_lat, p1_lon, p2_lat, p2_lon, x_lat, x_lon):
     d1 = math.hypot(p1_lat - x_lat, p1_lon - x_lon)
     d2 = math.hypot(p1_lat - p2_lat, p1_lon - p2_lon)
     delta_time = (t2 - t1)
-    print(delta_time)
-    tx = (d1 * (t2 - t1)) / d2
-    print(tx)
+    tdiff = (d1 * (t2 - t1)) / d2
+    tx = t1 + tdiff
     return tx
 
 
