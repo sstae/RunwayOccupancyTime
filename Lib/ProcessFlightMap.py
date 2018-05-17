@@ -1,10 +1,10 @@
 import os
-
+import fileinput
 import gmplot
 
 from Lib import Util
 
-filename = "C:\\Users\\Pipat_P\\Desktop\\RunwayOccupancyTime\\Runtime\\FlightDataByDate\\20180321_\\CAT20\\881b6a_00"
+
 
 
 # Function for plotting in Google Map
@@ -21,8 +21,12 @@ def get_all_coordinates(input_filename):
 
 
 def prepare_data(flight_info):
-    # TODO extract only some data for validation by joe
-    return "test"
+    direction = flight_info['direction']['direction']
+    runway = flight_info["runway"]["runway"]
+    bay_zone = flight_info["bay"]["bay"]
+    callsign = flight_info['callsign']['callsign']
+    text = "<br>Callsign: " + str(callsign) + "</br>" + "<br>Direction: " + str(direction) + "</br>" + "<br>Runway: " + str(runway) + "</br>" + "<br>Bay zone: " + str(bay_zone) + "</br>"
+    return text
 
 
 # take a string that is a pair of points, return an array of floats
@@ -34,12 +38,13 @@ def convert_to_float(my_coord):
     out_coord.append(float(my_coord['lon']))
     return out_coord
 
-
-
+import re
 def inject_text_to_html(filename, flight_info):
     text = prepare_data(flight_info)
-    # TODO open file by joe
-    # TODO replace </body> with text + </body> by joe
+    html_file = fileinput.FileInput(filename, inplace=True)
+    for insert_lines in html_file:
+        print(insert_lines.replace("</body>", "<div><h8>" + text + "</h8></div></body>"), end='')
+    html_file.close()
 
 def plot_google_map_to_file(config, filename, date, coordinates, flight_info):
     # define the map startingoutputdata\\20180322\\CAT20\\8a02ca_01
