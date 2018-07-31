@@ -13,6 +13,7 @@ from Lib import ProcessDirection
 from Lib import ProcessFlightMap
 from Lib import ProcessFlightTime
 from Lib import ProcessRunway
+from Lib import ProcessTaxiway
 from Lib import Util
 
 
@@ -58,6 +59,7 @@ def process_by_line(config, flight_info, content):
     ProcessDirection.process_by_line(config, flight_info, content)
     ProcessBay.process_by_line(config, flight_info, content)
     ProcessRunway.process_by_line(config, flight_info, content)
+    ProcessTaxiway.process_by_line(config, flight_info, content)
 
 
 def get_flight_movement(flight_movement_at_date, flight_info):
@@ -66,7 +68,7 @@ def get_flight_movement(flight_movement_at_date, flight_info):
             if flight_info['callsign']['callsign'] in flight_movement_at_date:
                 temp = flight_movement_at_date[flight_info['callsign']['callsign']]
                 if len(temp) == 1:
-                    return temp[0]
+                    return temp
                 # TODO Use direction by project
                 # if flight_info["direction"]["direction"] == "arrival":
                 # if arrival use end time compare to ATA/ETA.
@@ -130,12 +132,15 @@ def summary(config, flight_info):
             print("runway_time", flight_info["runway"]["runway_time"])
     if "callsign" in flight_info:
         print("callsign", flight_info["callsign"]["callsign"])
-
+    if "taxi" in flight_info:
+        print("taxi", flight_info["taxi"]["taxi"])
+        flight_info["taxi"].pop("taxi_layout")
 
 def process_final(config, flight_info, flight_movement_at_date):
     ProcessCallsign.process_final(config, flight_info)
     ProcessBay.process_final(config, flight_info)
     ProcessRunway.process_final(config, flight_info)
+    ProcessTaxiway.process_final(config, flight_info)
     flight_movement = get_flight_movement(flight_movement_at_date, flight_info)
     if flight_movement:
         flight_info['flight_movement'] = flight_movement

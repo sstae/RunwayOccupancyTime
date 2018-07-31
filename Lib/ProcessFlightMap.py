@@ -25,7 +25,11 @@ def prepare_data(flight_info):
     runway = flight_info["runway"]["runway"]
     bay_zone = flight_info["bay"]["bay"]
     callsign = flight_info['callsign']['callsign']
-    text = "<br>Callsign: " + str(callsign) + "</br>" + "<br>Direction: " + str(direction) + "</br>" + "<br>Runway: " + str(runway) + "</br>" + "<br>Bay zone: " + str(bay_zone) + "</br>"
+    taxiway = flight_info["taxi"]["taxi"]
+    # print(flight_info['flight_movement'])
+
+    text = "<br>Callsign: " + str(callsign) + "</br>" + "<br>Direction: " + str(direction) + "</br>" + "<br>Runway: " + \
+           str(runway) + "</br>" + "<br>Bay zone: " + str(bay_zone) + "</br>" + "<br>Taxiway: " + str(taxiway) + "</br>"
     return text
 
 
@@ -71,3 +75,4 @@ def plot_google_map_to_file(config, filename, date, coordinates, flight_info):
 def process_plot(config, input_filename, filename, date, flight_info):
     coordinates = get_all_coordinates(input_filename)
     plot_google_map_to_file(config, filename, date, coordinates, flight_info)
+
