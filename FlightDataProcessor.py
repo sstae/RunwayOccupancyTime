@@ -14,6 +14,7 @@ from Lib import ProcessFlightMap
 from Lib import ProcessFlightTime
 from Lib import ProcessRunway
 from Lib import ProcessTaxiway
+from Lib import ProcessAerodrome
 from Lib import Util
 
 
@@ -60,6 +61,7 @@ def process_by_line(config, flight_info, content):
     ProcessBay.process_by_line(config, flight_info, content)
     ProcessRunway.process_by_line(config, flight_info, content)
     ProcessTaxiway.process_by_line(config, flight_info, content)
+    ProcessAerodrome.process_by_line(config, flight_info, content)
 
 
 def get_flight_movement(flight_movement_at_date, flight_info):
@@ -130,17 +132,23 @@ def summary(config, flight_info):
         flight_info["runway"].pop("runway_layout")
         if flight_info["runway"]["runway"] != "unknown":
             print("runway_time", flight_info["runway"]["runway_time"])
+            print("runway_start_dt", flight_info["runway"]["runway_start_dt"])
+            print("runway_end_dt", flight_info["runway"]["runway_end_dt"])
     if "callsign" in flight_info:
         print("callsign", flight_info["callsign"]["callsign"])
     if "taxi" in flight_info:
         print("taxi", flight_info["taxi"]["taxi"])
         flight_info["taxi"].pop("taxi_layout")
+    if "Aerodrome" in flight_info:
+        print("Aerodrome_velocity", flight_info["Aerodrome"]["velocity(NM./hr.)"])
+        print("Aerodrome_time", flight_info["Aerodrome"]["time_Aerodrome"])
 
 def process_final(config, flight_info, flight_movement_at_date):
     ProcessCallsign.process_final(config, flight_info)
     ProcessBay.process_final(config, flight_info)
     ProcessRunway.process_final(config, flight_info)
     ProcessTaxiway.process_final(config, flight_info)
+    ProcessAerodrome.process_final(config, flight_info)
     flight_movement = get_flight_movement(flight_movement_at_date, flight_info)
     if flight_movement:
         flight_info['flight_movement'] = flight_movement

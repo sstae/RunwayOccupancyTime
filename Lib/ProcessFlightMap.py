@@ -26,12 +26,26 @@ def prepare_data(flight_info):
     bay_zone = flight_info["bay"]["bay"]
     callsign = flight_info['callsign']['callsign']
     taxiway = flight_info["taxi"]["taxi"]
+    runway_start_time = flight_info["runway"]["runway_start_dt"]
+    runway_end_time = flight_info["runway"]["runway_end_dt"]
+    # Aerodrome_velocity = flight_info["Aerodrome"]["velocity(NM./hr.)"]
+    # Aerodrome_time = flight_info["Aerodrome"]["time_Aerodrome"]
     # print(flight_info['flight_movement'])
 
-    text = "<br>Callsign: " + str(callsign) + "</br>" + "<br>Direction: " + str(direction) + "</br>" + "<br>Runway: " + \
-           str(runway) + "</br>" + "<br>Bay zone: " + str(bay_zone) + "</br>" + "<br>Taxiway: " + str(taxiway) + "</br>"
-    return text
-
+    if flight_info['direction']['direction'] == "arrival":
+        Aerodrome_velocity = flight_info["Aerodrome"]["velocity(NM./hr.)"]
+        Aerodrome_time = flight_info["Aerodrome"]["time_Aerodrome"]
+        text = "<br>Callsign: " + str(callsign) + "</br>" + "<br>Direction: " + str(direction) + "</br>" + "<br>Runway: " + \
+               str(runway) + "<br>runway_start_time: " + str(runway_start_time) + "<br>runway_end_time: " + str(runway_end_time) \
+               + "</br>" + "<br>Bay zone: " + str(bay_zone) + "</br>" + "<br>Taxiway: " + str(taxiway) + "</br>" \
+               + "<br>Aerodrome velocity(Knot): " + str(Aerodrome_velocity) + " <br>Aerodrome time: " + str(Aerodrome_time) \
+               + "</br>"
+        return text
+    else:
+        text = "<br>Callsign: " + str(callsign) + "</br>" + "<br>Direction: " + str(direction) + "</br>" + "<br>Runway: " + \
+               str(runway) + "<br>runway_start_time: " + str(runway_start_time) + "<br>runway_end_time: " + str(runway_end_time) \
+               + "</br>" + "<br>Bay zone: " + str(bay_zone) + "</br>" + "<br>Taxiway: " + str(taxiway) + "</br>"
+        return text
 
 # take a string that is a pair of points, return an array of floats
 def convert_to_float(my_coord):
