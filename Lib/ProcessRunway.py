@@ -51,33 +51,65 @@ def set_runway(condition, runway_dict, runway_name, prev_content, content):
 
 def initial():
     # runway_dict = {}
-    runway_point1 = geometry.Point(13.92649670244764, 100.6121817115145)
-    runway_point2 = geometry.Point(13.91454494713619, 100.6054260689291)
-    runway_point3 = geometry.Point(13.89716600000000, 100.5956400000000)
-    runway_point4 = geometry.Point(13.92611504798200, 100.6127341377071)
-    runway_point5 = geometry.Point(13.91428248723653, 100.6059061290093)
-    runway_point6 = geometry.Point(13.89688100000000, 100.5962420000000)
-    runway_point7 = geometry.Point(13.92737285374881, 100.6169742061147)
-    runway_point8 = geometry.Point(13.91281787813946, 100.6087793256608)
-    runway_point9 = geometry.Point(13.89956716145793, 100.6013471916915)
-    runway_point10 = geometry.Point(13.92711706145504, 100.6173677765666)
-    runway_point11 = geometry.Point(13.91252191775162, 100.6091176116703)
-    runway_point12 = geometry.Point(13.89938636326239, 100.6017624507612)
+    # Stopway of R21
+    stopway_R21_1  = geometry.Point(13.92767, 100.61278)
+    R21_1          = geometry.Point(13.92663, 100.61221) #R21 Threshold
+    stopway_R21_2  = geometry.Point(13.927413, 100.613330) ##R21 Threshold
+    R21_2          = geometry.Point(13.92739, 100.61332)
 
-    point_list_runway1 = [runway_point1, runway_point2, runway_point5, runway_point4, runway_point1]  # 21R
-    point_list_runway2 = [runway_point2, runway_point3, runway_point6, runway_point5, runway_point2]  # 03L
-    point_list_runway3 = [runway_point7, runway_point8, runway_point11, runway_point10, runway_point7]  # 21L
-    point_list_runway4 = [runway_point8, runway_point9, runway_point12, runway_point11, runway_point8]  # 03R
+    # Runway R
+    R21_1 = geometry.Point(13.92663, 100.61221) #R21 Threshold
+    R03_1 = geometry.Point(13.89697, 100.59556) #R03 Threshold
+    R03_2 = geometry.Point(13.89667, 100.59611) #R03 Threshold
+    R21_2 = geometry.Point(13.92634, 100.61274) #R21 Threshold
 
-    polygon_runway1 = geometry.Polygon([[p.x, p.y] for p in point_list_runway1])
-    polygon_runway2 = geometry.Polygon([[p.x, p.y] for p in point_list_runway2])
-    polygon_runway3 = geometry.Polygon([[p.x, p.y] for p in point_list_runway3])
-    polygon_runway4 = geometry.Polygon([[p.x, p.y] for p in point_list_runway4])
+    # Stopway of R03
+    R03_1 = geometry.Point(13.89697, 100.59556) #R03 Threshold
+    stopway_R03_1 = geometry.Point(13.89597, 100.595)
+    R03_2 = geometry.Point(13.89667, 100.59611)
+    stopway_R03_2 = geometry.Point(13.895652, 100.595509) #R03 Threshold
 
-    runway_dict = {"rwy21R": polygon_runway1,
-                   "rwy21L": polygon_runway3,
-                   "rwy03R": polygon_runway4,
-                   "rwy03L": polygon_runway2}
+    # Stopway of L21
+    stopways_L21_1 = geometry.Point(13.92781, 100.61706)
+    stopways_L21_2 = geometry.Point(13.92744, 100.61685)
+    stopways_L21_3 = geometry.Point(13.92719, 100.61733)
+    stopways_L21_4 = geometry.Point(13.92757, 100.61754)
+
+    # Runway L
+    L21_1 = geometry.Point(13.92443, 100.61518)
+    L03_1 = geometry.Point(13.89957, 100.60123) #L03 Threshold
+    L03_2 = geometry.Point(13.89930, 100.60170) #L03 Threshold
+    L21_2 = geometry.Point(13.92417, 100.61564)
+
+    # Stopway of L03
+    L03_1 = geometry.Point(13.89957, 100.60123)
+    stopway_L03_1 = geometry.Point(13.89886, 100.60082)
+    stopway_L03_2 = geometry.Point(13.89859, 100.60131)
+    L03_2 = geometry.Point(13.89930, 100.60170)
+
+
+    # Point list
+    point_rwy_R = [R21_1, R03_1, R03_2, R21_2, R21_1]
+    point_rwy_L = [L21_1, L03_1, L03_2, L21_2, L21_1]
+    point_stpwy_R21 = [stopway_R21_1, R21_1, R21_2, stopway_R21_2, stopway_R21_1]
+    point_stpwy_L21 = [stopways_L21_1, L21_1, L21_2, stopways_L21_4]
+    point_stpwy_R03 = [R03_1, stopway_R03_1, stopway_R03_2, R03_2, R03_1]
+    point_stpwy_L03 = [L03_1, stopway_L03_1, stopway_L03_2, L03_2, L03_1]
+
+    # Polygon list
+    polygon_rwy_R = geometry.Polygon([[p.x, p.y] for p in point_rwy_R])
+    polygon_rwy_L = geometry.Polygon([[p.x, p.y] for p in point_rwy_L])
+    polygon_stpwy_R21 = geometry.Polygon([[p.x, p.y] for p in point_stpwy_R21])
+    polygon_stpwy_L21 = geometry.Polygon([[p.x, p.y] for p in point_stpwy_L21])
+    polygon_stpwy_R03 = geometry.Polygon([[p.x, p.y] for p in point_stpwy_R03])
+    polygon_stpwy_L03 = geometry.Polygon([[p.x, p.y] for p in point_stpwy_L03])
+
+    runway_dict = {"rwy21R": polygon_stpwy_R21,
+                   "rwy21L": polygon_stpwy_L21,
+                   "rwy03R": polygon_stpwy_R03,
+                   "rwy03L": polygon_stpwy_L03,
+                   "rwyR": polygon_rwy_R,
+                   "rwyL": polygon_rwy_L}
     return runway_dict
 
 
@@ -89,15 +121,9 @@ def process_final(config, flight):
         print("runway_dict", runway_dict)
         runway_order = get_runway_order(runway_dict)
         runway_layout = flight["runway"]["runway_layout"]
-        if len(runway_dict) == 3:
-            flight["runway"]["runway"] = runway_order[1]
-            flight["runway"]["runway_start_dt"] = get_time_across_runway(runway_layout, runway_order[1], "in",
-                                                                         runway_dict[runway_order[1]])
-            flight["runway"]["runway_end_dt"] = get_time_across_runway(runway_layout, runway_order[2], "out",
-                                                                       runway_dict[runway_order[2]])
-            flight["runway"]["runway_time"] = (
-                    flight["runway"]["runway_end_dt"] - flight["runway"]["runway_start_dt"]).seconds
-        elif len(runway_dict) == 2:
+
+        direction = flight["direction"]["direction"]
+        if len(runway_dict) == 3 and direction == "arrival":
             flight["runway"]["runway"] = runway_order[0]
             flight["runway"]["runway_start_dt"] = get_time_across_runway(runway_layout, runway_order[0], "in",
                                                                          runway_dict[runway_order[0]])
@@ -105,8 +131,39 @@ def process_final(config, flight):
                                                                        runway_dict[runway_order[1]])
             flight["runway"]["runway_time"] = (
                     flight["runway"]["runway_end_dt"] - flight["runway"]["runway_start_dt"]).seconds
+
+        elif len(runway_dict) == 3 and direction == "departure":
+            flight["runway"]["runway"] = runway_order[2]
+            flight["runway"]["runway_start_dt"] = get_time_across_runway(runway_layout, runway_order[1], "in",
+                                                                         runway_dict[runway_order[1]])
+            flight["runway"]["runway_end_dt"] = get_time_across_runway(runway_layout, runway_order[2], "out",
+                                                                       runway_dict[runway_order[2]])
+            flight["runway"]["runway_time"] = (
+                    flight["runway"]["runway_end_dt"] - flight["runway"]["runway_start_dt"]).seconds
+
+        elif len(runway_dict) == 2 and direction == "arrival":
+            flight["runway"]["runway"] = runway_order[0]
+            flight["runway"]["runway_start_dt"] = get_time_across_runway(runway_layout, runway_order[0], "in",
+                                                                         runway_dict[runway_order[0]])
+            flight["runway"]["runway_end_dt"] = get_time_across_runway(runway_layout, runway_order[1], "out",
+                                                                       runway_dict[runway_order[1]])
+            flight["runway"]["runway_time"] = (
+                    flight["runway"]["runway_end_dt"] - flight["runway"]["runway_start_dt"]).seconds
+
+        elif len(runway_dict) == 2 and direction == "departure":
+            flight["runway"]["runway"] = runway_order[1]
+            flight["runway"]["runway_start_dt"] = get_time_across_runway(runway_layout, runway_order[0], "in",
+                                                                         runway_dict[runway_order[0]])
+            flight["runway"]["runway_end_dt"] = get_time_across_runway(runway_layout, runway_order[1], "out",
+                                                                       runway_dict[runway_order[1]])
+            flight["runway"]["runway_time"] = (
+                    flight["runway"]["runway_end_dt"] - flight["runway"]["runway_start_dt"]).seconds
+
         else:
             flight["runway"]["runway"] = "unknown"
+            flight["runway"]["runway_start_dt"] = "unknown"
+            flight["runway"]["runway_end_dt"] = "unknown"
+            flight["runway"]["runway_time"] = "unknown"
 
 
 def get_time_across_runway(runway_layout, runway_name, condition, runway): #fixed
@@ -151,7 +208,7 @@ def get_runway_order(runway_dict):
 def intersect_runway_time(t1, t2, p1_lat, p1_lon, p2_lat, p2_lon, x_lat, x_lon):
     d1 = math.hypot(p1_lat - x_lat, p1_lon - x_lon)
     d2 = math.hypot(p1_lat - p2_lat, p1_lon - p2_lon)
-    delta_time = (t2 - t1)
+    # delta_time = (t2 - t1)
     tdiff = (d1 * (t2 - t1)) / d2
     tx = t1 + tdiff
     return tx
@@ -162,3 +219,5 @@ def find_intersection_point(p1_lat, p1_lon, p2_lat, p2_lon, polygon):
     shapely_line = geometry.LineString(line)
     intersection_line = list(polygon.intersection(shapely_line).coords)
     return intersection_line[1]
+
+
