@@ -15,6 +15,7 @@ from Lib import ProcessFlightTime
 from Lib import ProcessRunway
 from Lib import ProcessTaxiway
 from Lib import ProcessAerodrome
+from Lib import ProcessLiftTime
 from Lib import Util
 
 
@@ -62,6 +63,7 @@ def process_by_line(config, flight_info, content):
     ProcessRunway.process_by_line(config, flight_info, content)
     ProcessTaxiway.process_by_line(config, flight_info, content)
     ProcessAerodrome.process_by_line(config, flight_info, content)
+    ProcessLiftTime.process_by_line(config, flight_info, content)
 
 
 def get_flight_movement(flight_movement_at_date, flight_info):
@@ -71,11 +73,6 @@ def get_flight_movement(flight_movement_at_date, flight_info):
                 temp = flight_movement_at_date[flight_info['callsign']['callsign']]
                 if len(temp) == 1:
                     return temp
-                # TODO Use direction by project
-                # if flight_info["direction"]["direction"] == "arrival":
-                # if arrival use end time compare to ATA/ETA.
-                # if flight_info["direction"]["direction"] == "departure":
-                # if departure use start time compare to ATD/ETD.
                 else:
                     temp_item = get_one_flight_movement(flight_info, temp)
                     return temp_item
@@ -124,6 +121,8 @@ def summary(config, flight_info):
         print("flight_movement", flight_info["flight_movement"])
     if "direction" in flight_info:
         print("direction", flight_info["direction"]["direction"])
+    if "lift" in flight_info:
+        print("Lift time", flight_info["lift"]["time"])
     if "bay" in flight_info:
         print("bay_zone", flight_info["bay"]["bay"])
         flight_info["bay"].pop("bay_layout")
@@ -143,6 +142,7 @@ def summary(config, flight_info):
         print("Aerodrome_velocity", flight_info["Aerodrome"]["velocity(NM./hr.)"])
         print("Aerodrome_time", flight_info["Aerodrome"]["time_Aerodrome"])
 
+
 def process_final(config, flight_info, flight_movement_at_date):
     ProcessCallsign.process_final(config, flight_info)
     ProcessBay.process_final(config, flight_info)
@@ -158,11 +158,15 @@ def process_final(config, flight_info, flight_movement_at_date):
 def process_flight(config, input_file, flight_movement_at_date):
     flight_info = {}
     a = open(input_file, 'r')
-    first_line = a.readline()
-    for line in a:
+    line1 = a.readlines()
+    first_line = line1[0]
+    for line in line1:
         last_line = line
+    a.close()
+    # last_line = first_line[-1]
     with open(input_file, "r") as f:
         for line in f:
+            # last_line = line[-1]
             data = Util.json_load(line)
             process_by_line(config, flight_info, data)
         ProcessFlightTime.process_final(config, flight_info, first_line, last_line)

@@ -28,6 +28,7 @@ def prepare_data(flight_info):
     taxiway = flight_info["taxi"]["taxi"]
     runway_start_time = flight_info["runway"]["runway_start_dt"]
     runway_end_time = flight_info["runway"]["runway_end_dt"]
+
     # Aerodrome_velocity = flight_info["Aerodrome"]["velocity(NM./hr.)"]
     # Aerodrome_time = flight_info["Aerodrome"]["time_Aerodrome"]
     # print(flight_info['flight_movement'])
@@ -42,9 +43,11 @@ def prepare_data(flight_info):
                + "</br>"
         return text
     else:
+        lift_time = flight_info["lift"]["time"]
         text = "<br>Callsign: " + str(callsign) + "</br>" + "<br>Direction: " + str(direction) + "</br>" + "<br>Runway: " + \
                str(runway) + "<br>runway_start_time: " + str(runway_start_time) + "<br>runway_end_time: " + str(runway_end_time) \
-               + "</br>" + "<br>Bay zone: " + str(bay_zone) + "</br>" + "<br>Taxiway: " + str(taxiway) + "</br>"
+               + "</br>" + "<br>Bay zone: " + str(bay_zone) + "</br>" + "<br>Taxiway: " + str(taxiway) + "</br>" \
+               + "<br>Lift_time: " + str(lift_time) + "</br>"
         return text
 
 # take a string that is a pair of points, return an array of floats

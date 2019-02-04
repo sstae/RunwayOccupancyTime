@@ -3,6 +3,7 @@ import math
 from shapely import geometry
 from decimal import Decimal
 
+
 def process_by_line(config, flight_info, content):
     if "runway" not in flight_info:
         # first time
@@ -125,39 +126,59 @@ def process_final(config, flight):
         direction = flight["direction"]["direction"]
         if len(runway_dict) == 3 and direction == "arrival":
             flight["runway"]["runway"] = runway_order[0]
-            flight["runway"]["runway_start_dt"] = get_time_across_runway(runway_layout, runway_order[0], "in",
-                                                                         runway_dict[runway_order[0]])
-            flight["runway"]["runway_end_dt"] = get_time_across_runway(runway_layout, runway_order[1], "out",
-                                                                       runway_dict[runway_order[1]])
-            flight["runway"]["runway_time"] = (
-                    flight["runway"]["runway_end_dt"] - flight["runway"]["runway_start_dt"]).seconds
+            if len(runway_dict[runway_order[1]]) == 2 and len(runway_dict[runway_order[2]]) == 2:
+                flight["runway"]["runway_start_dt"] = get_time_across_runway(runway_layout, runway_order[0], "in",
+                                                                             runway_dict[runway_order[0]])
+                flight["runway"]["runway_end_dt"] = get_time_across_runway(runway_layout, runway_order[1], "out",
+                                                                           runway_dict[runway_order[1]])
+                flight["runway"]["runway_time"] = (
+                        flight["runway"]["runway_end_dt"] - flight["runway"]["runway_start_dt"]).seconds
+            else:
+                flight["runway"]["runway_start_dt"] = "unknown"
+                flight["runway"]["runway_end_dt"] = "unknown"
+                flight["runway"]["runway_time"] = "unknown"
 
         elif len(runway_dict) == 3 and direction == "departure":
             flight["runway"]["runway"] = runway_order[2]
-            flight["runway"]["runway_start_dt"] = get_time_across_runway(runway_layout, runway_order[1], "in",
-                                                                         runway_dict[runway_order[1]])
-            flight["runway"]["runway_end_dt"] = get_time_across_runway(runway_layout, runway_order[2], "out",
-                                                                       runway_dict[runway_order[2]])
-            flight["runway"]["runway_time"] = (
-                    flight["runway"]["runway_end_dt"] - flight["runway"]["runway_start_dt"]).seconds
+            if len(runway_dict[runway_order[1]]) == 2 and len(runway_dict[runway_order[2]]) == 2:
+                flight["runway"]["runway_start_dt"] = get_time_across_runway(runway_layout, runway_order[1], "in",
+                                                                             runway_dict[runway_order[1]])
+                flight["runway"]["runway_end_dt"] = get_time_across_runway(runway_layout, runway_order[2], "out",
+                                                                           runway_dict[runway_order[2]])
+                flight["runway"]["runway_time"] = (
+                        flight["runway"]["runway_end_dt"] - flight["runway"]["runway_start_dt"]).seconds
+            else:
+                flight["runway"]["runway_start_dt"] = "unknown"
+                flight["runway"]["runway_end_dt"] = "unknown"
+                flight["runway"]["runway_time"] = "unknown"
 
         elif len(runway_dict) == 2 and direction == "arrival":
             flight["runway"]["runway"] = runway_order[0]
-            flight["runway"]["runway_start_dt"] = get_time_across_runway(runway_layout, runway_order[0], "in",
-                                                                         runway_dict[runway_order[0]])
-            flight["runway"]["runway_end_dt"] = get_time_across_runway(runway_layout, runway_order[1], "out",
-                                                                       runway_dict[runway_order[1]])
-            flight["runway"]["runway_time"] = (
-                    flight["runway"]["runway_end_dt"] - flight["runway"]["runway_start_dt"]).seconds
+            if len(runway_dict[runway_order[0]]) == 2 and len(runway_dict[runway_order[1]]) == 2:
+                flight["runway"]["runway_start_dt"] = get_time_across_runway(runway_layout, runway_order[0], "in",
+                                                                             runway_dict[runway_order[0]])
+                flight["runway"]["runway_end_dt"] = get_time_across_runway(runway_layout, runway_order[1], "out",
+                                                                           runway_dict[runway_order[1]])
+                flight["runway"]["runway_time"] = (
+                        flight["runway"]["runway_end_dt"] - flight["runway"]["runway_start_dt"]).seconds
+            else:
+                flight["runway"]["runway_start_dt"] = "unknown"
+                flight["runway"]["runway_end_dt"] = "unknown"
+                flight["runway"]["runway_time"] = "unknown"
 
         elif len(runway_dict) == 2 and direction == "departure":
             flight["runway"]["runway"] = runway_order[1]
-            flight["runway"]["runway_start_dt"] = get_time_across_runway(runway_layout, runway_order[0], "in",
-                                                                         runway_dict[runway_order[0]])
-            flight["runway"]["runway_end_dt"] = get_time_across_runway(runway_layout, runway_order[1], "out",
-                                                                       runway_dict[runway_order[1]])
-            flight["runway"]["runway_time"] = (
-                    flight["runway"]["runway_end_dt"] - flight["runway"]["runway_start_dt"]).seconds
+            if len(runway_dict[runway_order[0]]) == 2 and len(runway_dict[runway_order[1]]) == 2:
+                flight["runway"]["runway_start_dt"] = get_time_across_runway(runway_layout, runway_order[0], "in",
+                                                                             runway_dict[runway_order[0]])
+                flight["runway"]["runway_end_dt"] = get_time_across_runway(runway_layout, runway_order[1], "out",
+                                                                           runway_dict[runway_order[1]])
+                flight["runway"]["runway_time"] = (
+                        flight["runway"]["runway_end_dt"] - flight["runway"]["runway_start_dt"]).seconds
+            else:
+                flight["runway"]["runway_start_dt"] = "unknown"
+                flight["runway"]["runway_end_dt"] = "unknown"
+                flight["runway"]["runway_time"] = "unknown"
 
         else:
             flight["runway"]["runway"] = "unknown"
